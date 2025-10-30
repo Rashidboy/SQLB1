@@ -22,15 +22,15 @@ SQLB1/
 ├── misc/images/ # Diagrammalar va vizual ko‘rinishlar
 └── README.md
 
-yaml
-Копировать код
+
 
 ---
 
 ## 🧩 Ma’lumotlar modeli (Database Schema)
 Quyidagi rasmda loyiha ma’lumotlar bazasining tuzilmasi ko‘rsatilgan:
 
-![Database Schema](misc/images/schema.png)
+![ER Diagram](misc/images/erd_diagram.png)
+
 
 **Asosiy jadvallar:**
 
@@ -59,8 +59,7 @@ create table person (
 alter table person add constraint ch_gender
 check (gender in ('female', 'male'));
 🍕 pizzeria jadvali
-sql
-Копировать код
+
 create table pizzeria (
   id bigint primary key,
   name varchar not null,
@@ -70,8 +69,7 @@ create table pizzeria (
 alter table pizzeria add constraint ch_rating
 check (rating between 0 and 5);
 🕓 person_visits jadvali
-sql
-Копировать код
+
 create table person_visits (
   id bigint primary key,
   person_id bigint not null,
@@ -82,8 +80,7 @@ create table person_visits (
   constraint fk_person_visits_pizzeria_id foreign key (pizzeria_id) references pizzeria(id)
 );
 📋 menu jadvali
-sql
-Копировать код
+
 create table menu (
   id bigint primary key,
   pizzeria_id bigint not null,
@@ -92,8 +89,7 @@ create table menu (
   constraint fk_menu_pizzeria_id foreign key (pizzeria_id) references pizzeria(id)
 );
 🛒 person_order jadvali
-sql
-Копировать код
+
 create table person_order (
   id bigint primary key,
   person_id bigint not null,
@@ -105,38 +101,33 @@ create table person_order (
 🍽️ Ma’lumotlarni kiritish (INSERT)
 Quyidagi namunaviy ma’lumotlar bazaga kiritiladi:
 
-sql
-Копировать код
+
 insert into person values (1, 'Anna', 16, 'female', 'Moscow');
 insert into pizzeria values (1, 'Pizza Hut', 4.6);
 insert into person_visits values (1, 1, 1, '2022-01-01');
 insert into menu values (1, 1, 'cheese pizza', 900);
 insert into person_order values (1, 1, 1, '2022-01-01');
+
 ⚙️ Qanday ishlatish kerak
 1️⃣ Bazani yaratish
 PostgreSQL da yangi ma’lumotlar bazasini oching:
 
-bash
-Копировать код
 createdb pizza_db
 2️⃣ Modellarni import qilish
 materials/model.sql faylini bazaga yuklang:
 
-bash
-Копировать код
+
 psql -d pizza_db -f materials/model.sql
 3️⃣ SQL mashqlarni bajarish
 src/ ichidagi .sql fayllarni ketma-ket ishga tushiring:
 
-bash
-Копировать код
+
 psql -d pizza_db -f src/day00_ex00.sql
 4️⃣ Natijani tekshirish
 Har bir mashq so‘rovini psql yoki pgAdmin orqali sinab ko‘ring.
 
 🧪 Namuna: SELECT so‘rovi
-sql
-Копировать код
+
 -- Kazan shahridagi barcha shaxslarning ismi va yoshi
 SELECT name, age
 FROM person
